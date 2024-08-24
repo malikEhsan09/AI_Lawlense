@@ -3,7 +3,7 @@
 import React from "react";
 import Info from "@/components/Info";
 import Chat from "@/components/Chat";
-import Loading from "@/components/loading"; // Import the Loading component
+import Loading from "@/components/loading"; 
 import { Input } from "@/components/ui/input";
 import {
   ArrowUpIcon,
@@ -28,16 +28,24 @@ const Main = () => {
     setSubmittedInput(input);
 
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/query/`, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/legal-query/`, {
         query: input,
       });
 
-      setResponse(res.data.response);  // Store the backend response
+      console.log(res.data);
+      setResponse(res.data.choices[0].message.content); 
     } catch (error) {
       console.error("Error fetching response:", error);
     } finally {
       setLoading(false);
       setInput("");  // Clear input field
+    }
+  };
+
+  // Function to handle key down events
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !loading) {
+      sendMessage(e as any); // Cast to any to satisfy TypeScript
     }
   };
 
@@ -102,6 +110,7 @@ const Main = () => {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown} // Add onKeyDown event handler
             className="border-none px-3"
           />
           <button
@@ -113,10 +122,10 @@ const Main = () => {
           </button>
         </div>
       )}
-      <p className="text-custom-light-gray text-xs mb-6">
+      {/* <p className="text-custom-light-gray text-xs mb-6">
         LawLens AI Free Research Preview. Our goal is to make AI systems more
         natural and safe to interact with. Your feedback will help us improve.
-      </p>
+      </p> */}
     </div>
   );
 };
