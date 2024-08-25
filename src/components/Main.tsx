@@ -58,8 +58,8 @@ const Main = () => {
         <Chat input={submittedInput} response={response} loading={loading} />
       ) : (
         <>
-          <h1 className="text-heading text-3xl mt-5 mb-5">LawLens AI</h1>
-          <div className="features grid grid-cols-3 grid-rows-4 w-3/4 flex-1 gap-4">
+          <h1 className="text-heading text-3xl mt-5 mb-5 text-center">LawLens AI</h1>
+          <div className="features grid grid-cols-3 grid-rows-4 w-3/4 flex-1 gap-4 ml-[11rem]">
             {/* Feature content */}
             <div className="flex flex-col justify-center items-center col-start-1 text-center">
               <SunIcon className="text-foreground" />
@@ -103,7 +103,7 @@ const Main = () => {
       )}
       {/* prompt_input area */}
       {!loading && (
-        <div className="prompt-button w-3/4 flex mt-8 mb-8 bg-container px-3">
+        <div className="prompt-button w-3/4 flex mt-8 mb-8 bg-container px-3 ml-[11rem]">
           <button className="bg-container hover:bg-inherit">
             <Paperclip className="text-foreground" />
           </button>

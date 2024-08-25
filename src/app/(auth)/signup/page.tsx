@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { supabase } from "../../../lib/supabaseClient";
-import { Label } from "../../../components/ui/label";
-import { Input } from "../../../components/ui/form-input";
-import { cn } from "@/lib/utils";
-import { IconUserPlus } from "@tabler/icons-react";
+
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Input from "@/components/Input";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +14,7 @@ const Signup: React.FC = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,6 +26,25 @@ const Signup: React.FC = () => {
       password,
       username,
     });
+
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+      // Basic password length validation
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+
+  setLoading(true);
+    setError(null);
+
 
     try {
       const { error } = await supabase.auth.signUp({
@@ -56,110 +76,94 @@ const Signup: React.FC = () => {
     }
   };
 
+ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if(name === 'username') {
+      setUsername(value);
+    }
+    else if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
+
+  };
+
   const handleAlertClose = () => {
     setSuccess(false);
     router.push("/login");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f7f7f7] py-12">
-      <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-lg bg-white dark:bg-black">
-        <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200 text-center flex items-center justify-center">
-          <IconUserPlus className="mr-2 h-6 w-6" />
-          Signup
-        </h2>
-        <form className="my-8" onSubmit={handleSubmit}>
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-            <LabelInputContainer>
-              <Label htmlFor="username">User Name</Label>
-              <Input
-                id="username"
-                placeholder="Enter your name"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </LabelInputContainer>
+    <main className="flex h-screen w-screen flex-col items-center justify-center space-y-4">
+      <Image src="/logo.svg" width={80} height={80} alt="Lawlens ai Logo" />
+      <h1 className="text-3xl font-extrabold">Create an Account</h1>
+      <div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="relative">
+            <Input
+              type="text"
+              name="username"
+              label="Username*"
+              value={username}
+              onChange={handleInputChange}
+            />
           </div>
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="email">Email Address</Label>
+          <div className="relative">
             <Input
-              id="email"
-              placeholder="myAccountEmail@gmail.com"
               type="email"
+              label="Email*"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleInputChange}
+              name="email"
+         
             />
-          </LabelInputContainer>
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="password">Password</Label>
+          </div>
+          <div className="relative">
             <Input
-              id="password"
-              placeholder="••••••••"
               type="password"
+              label="Password*"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleInputChange}
+              name="password"
+          
             />
-          </LabelInputContainer>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <button
-            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          </div>
+            {error && <p className="text-red-500">{error}</p>}
+          {success && <p className="text-green-500">Account created Successfully!</p>}
+          <div className="relative">
+            <button
+            className="h-[45px] w-[295px] rounded-md bg-[#E3A706] text-white"
             type="submit"
+            disabled={loading}
           >
-            Signup &rarr;
-            <BottomGradient />
+            {loading ? "Loading..." : "Continue"}
           </button>
-          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-          <div className="text-center">
-            <p className="text-neutral-600 dark:text-neutral-400">
-              Already have an account?{" "}
-              <Link href="/login" className="text-blue-500 hover:underline">
-                Login here
-              </Link>
-            </p>
           </div>
         </form>
-
-        {success && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-4 rounded shadow-lg">
-              <h3 className="text-lg font-bold">Signup Successful!</h3>
-              <p>Account created successfully! Please confirm your email to log in to your account.</p>
-              <button
-                onClick={handleAlertClose}
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                OK
-              </button>
-            </div>
-          </div>
-        )}
+        <div className="my-2 flex justify-center gap-2">
+          <p>Already have an account?</p>
+          <Link href="/login" className="cursor-pointer text-[#E3A706]">
+            Login
+          </Link>
+        </div>
+        <div className="relative my-4 flex items-center">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-2 text-xs text-gray-500">OR</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
       </div>
-    </div>
+      <button
+        className="flex h-[45px] w-[295px] items-center justify-center gap-x-2 rounded-md border-[1px] border-gray-300 text-black"
+        type="button"
+      >
+        <Image src="/google.svg" width={20} height={20} alt="Google Logo" />
+        Continue with Google
+      </button>
+    </main>
   );
 };
 
-const BottomGradient = () => {
-  return (
-    <>
-      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-    </>
-  );
-};
-
-const LabelInputContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 w-full", className)}>
-      {children}
-    </div>
-  );
-};
 
 export default Signup;

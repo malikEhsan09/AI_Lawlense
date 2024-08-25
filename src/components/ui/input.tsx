@@ -12,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         type="text"
         placeholder="Give your Query"
         className={cn(
-          "flex h-10 w-full rounded-md text-foreground bg-container px-3 py-2 text-sm file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus:ring-0", // Added focus:outline-none and focus:ring-0
+          "flex h-10 w-full rounded-md text-foreground bg-container px-3 py-2 text-sm file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus:ring-0 ", // Added focus:outline-none and focus:ring-0
           className
         )}
         ref={ref}
