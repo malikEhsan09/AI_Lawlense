@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+openai
+python-dotenv
+supabase
+langchain-community
+httpx
+PyMuPDF  # This is the package that provides the `fitz` module
+python-multipart  # Required for handling file uploads in FastAPI
