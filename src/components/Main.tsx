@@ -110,7 +110,7 @@ const Main = () => {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown} // Add onKeyDown event handler
+            onKeyDown={handleKeyDown}
             className="border-none px-3"
           />
           <button
