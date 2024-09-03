@@ -1,6 +1,5 @@
-/* this is the main page */
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Info from "@/components/Info";
 import Chat from "@/components/Chat";
 import Loading from "@/components/loading"; 
@@ -12,15 +11,14 @@ import {
   ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
 import { Paperclip } from "lucide-react";
-import { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 const Main = () => {
-  // Keeping track of the input entered
   const [input, setInput] = useState("");
   const [submittedInput, setSubmittedInput] = useState("");
-  const [response, setResponse] = useState(""); // State for storing the backend response
-  const [loading, setLoading] = useState(false); // Loading state
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendMessage = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,29 +36,28 @@ const Main = () => {
       console.error("Error fetching response:", error);
     } finally {
       setLoading(false);
-      setInput("");  // Clear input field
+      setInput("");
     }
   };
 
-  // Function to handle key down events
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !loading) {
-      sendMessage(e as any); // Cast to any to satisfy TypeScript
+      sendMessage(e as any);
     }
   };
 
   return (
-    <div className="main flex text-center items-center min-h-screen justify-evenly flex-col bg-background px-4">
-      {/* Render Loading component if loading is true */}
+    <div className="main flex flex-col items-center min-h-screen bg-background px-4 relative">
       {loading ? (
-        <Loading />  // Show the loading spinner
+        <Loading />
       ) : submittedInput ? (
         <Chat input={submittedInput} response={response} loading={loading} />
       ) : (
         <>
-          <h1 className="text-heading text-3xl mt-5 mb-5 text-center">LawLens AI</h1>
-          <div className="features grid grid-cols-3 grid-rows-4 w-3/4 flex-1 gap-4 ml-[11rem]">
-            {/* Feature content */}
+          <h1 className="text-heading text-3xl mt-5 mb-5 text-center hidden md:block">
+            LawLens AI
+          </h1>
+          <div className="features grid grid-cols-3 grid-rows-4 w-3/4 flex-1 gap-4 ml-[11rem] hidden md:grid">
             <div className="flex flex-col justify-center items-center col-start-1 text-center">
               <SunIcon className="text-foreground" />
               <p className="text-foreground bot mt-1">Examples</p>
@@ -71,11 +68,6 @@ const Main = () => {
             <div className="col-start-1 row-start-3">
               <Info prompt="Interpret: 'Willfully injuring someone with a weapon is a felony, minimum five years imprisonment.'" />
             </div>
-            <div className="col-start-1 row-start-4">
-              <Info prompt="Advise an online marketplace on minimizing liability." />
-            </div>
-
-            {/* Capabilities */}
             <div className="flex flex-col justify-center items-center row-start-1 col-start-2 text-center">
               <LightningBoltIcon className="text-foreground" />
               <p className="text-foreground mt-1">Capabilities</p>
@@ -86,46 +78,66 @@ const Main = () => {
             <div className="col-start-2 row-start-3">
               <Info prompt="Allows user to provide follow-up corrections" />
             </div>
-            <div className="col-start-2 row-start-4">
-              <Info prompt="Trained to decline inappropriate requests" />
-            </div>
-
-            {/* Limitations */}
             <div className="flex flex-col justify-center items-center max-h-screen row-start-1 col-start-3">
               <ExclamationTriangleIcon className="text-foreground" />
               <p className="text-foreground mt-1">Limitations</p>
             </div>
             <Info prompt="May occasionally generate incorrect information" />
             <Info prompt="May occasionally produce harmful instructions or biased content" />
-            <Info prompt="Limited knowledge of world and events after 2021" />
           </div>
         </>
       )}
-      {/* prompt_input area */}
-      {!loading && (
-        <div className="prompt-button w-3/4 flex mt-8 mb-8 bg-container px-3 ml-[11rem]">
-          <button className="bg-container hover:bg-inherit">
-            <Paperclip className="text-foreground" />
-          </button>
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="border-none px-3"
+
+      {/* Mobile View */}
+      <div className="absolute inset-0 flex flex-col items-center justify-start md:hidden">
+        <h1 className="text-heading text-2xl font-bold mt-4">AI Lawlense </h1> {/* Moved to the top */}
+        <div className="flex flex-col items-center mt-[20rem]">
+          <Image 
+            src="/logo.png" 
+            alt="logo" 
+            width={80} 
+            height={80} 
+            className="mb-8 rounded-full" 
           />
-          <button
-            onClick={sendMessage}
-            type="submit"
-            className="bg-container hover:bg-inherit px-3"
-          >
-            <ArrowUpIcon />
-          </button>
+       <div className="flex flex-row justify-center gap-4 mb-16 p-7">
+  <button className="bg-transparent border border-white shadow-2xl hover:shadow-lg transition-shadow duration-300 text-white py-4 px-6 rounded-lg flex items-center justify-center w-64">
+    <div className="flex items-center">
+      Create an image for my presentation
+    </div>
+  </button>
+  <button className="bg-transparent border border-white shadow-2xl hover:shadow-lg transition-shadow duration-300 text-white py-4 px-6 rounded-lg flex items-center justify-center w-64">
+    <div className="flex items-center">
+      What's in the news in Tokyo today?
+    </div>
+  </button>
+</div>
+
+        </div>
+      </div>
+
+      {/* Prompt input area for all screens */}
+      {!loading && (
+        <div className="absolute bottom-0 w-full flex justify-center items-center bg-background p-4">
+          <div className="w-3/4 flex items-center bg-container p-3 rounded-full lg:ml-[11rem] md:ml-[11rem] sm:rounded-full md:rounded-e-full shadow-lg">
+            <button className="bg-container hover:bg-inherit">
+              <Paperclip className="text-foreground" />
+            </button>
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="border-none px-3 flex-grow"
+            />
+            <button
+              onClick={sendMessage}
+              type="submit"
+              className="bg-container hover:bg-inherit px-3"
+            >
+              <ArrowUpIcon />
+            </button>
+          </div>
         </div>
       )}
-      {/* <p className="text-custom-light-gray text-xs mb-6">
-        LawLens AI Free Research Preview. Our goal is to make AI systems more
-        natural and safe to interact with. Your feedback will help us improve.
-      </p> */}
     </div>
   );
 };

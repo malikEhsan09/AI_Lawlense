@@ -1,34 +1,31 @@
-"use client"
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+"use client";
+import React, { useState } from "react";
 import Main from "../components/Main";
 import Sidebar from "@/components/Sidebar";
-import { useAuth } from "../app/context/AuthContext";
-
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const UserDashboard = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
- const { user } = useAuth();
-  const router = useRouter();
-
- useEffect(() => {
-    if (!user) {
-      router.push("/");
-    }
-  }, [user, router]);
-
-  if (!user) return null; // Render nothing until redirect happens
-
-
-  if (!user) return null; // Render nothing until redirect happens
   return (
     <div className="flex h-screen w-screen">
-      {/* sidebar_component
-     main_UserDashboard_component */}
-      <div className="side-bar flex-none w-1/10 fixed">
+      {/* Sidebar */}
+      <div className={`fixed top-0 left-0 h-full ${sidebarOpen ? "block" : "hidden"} md:block side-bar flex-none w-1/10 z-20 bg-white`}>
         <Sidebar />
       </div>
-      <div className="main flex-grow w-9/10">
+      
+      {/* Hamburger Icon - Visible on small screens */}
+      <div className="absolute top-4 left-4 md:hidden z-30">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="text-foreground focus:outline-none"
+        >
+          {sidebarOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+        </button>
+      </div>
+
+      {/* Main content */}
+      <div className={`main flex-grow w-full md:w-9/10 ${sidebarOpen ? "ml-1/10" : ""}`}>
         <Main />
       </div>
     </div>
