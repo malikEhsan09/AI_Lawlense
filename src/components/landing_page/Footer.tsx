@@ -20,7 +20,7 @@ export default function Footer() {
           </a>
 
           {/* Instagram Icon */}
-          <a href="https://www.instagram.com/dev_hawks?igsh=MWp3dzRucm1ieTdxbQ==" target='_blank' className="relative group text-[#1e9e64d2] hover:text-[#2eb87ad2]">
+          <a href="https://www.instagram.com/dev_hawks?igsh=MWp3dzRucm1ieTdxbQ==" target='_blank'  className="relative group text-[#1e9e64d2] hover:text-[#2eb87ad2]">
             <FaInstagram className="w-6 h-6" />
             <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 rounded text-sm text-white bg-black opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Instagram

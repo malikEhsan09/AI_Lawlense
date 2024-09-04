@@ -90,8 +90,8 @@ const Main = () => {
 
       {/* Mobile View */}
       <div className="absolute inset-0 flex flex-col items-center justify-start md:hidden">
-        <h1 className="text-heading text-2xl font-bold mt-4">AI Lawlense </h1> {/* Moved to the top */}
-        <div className="flex flex-col items-center mt-[20rem]">
+        <h1 className="text-heading text-2xl font-bold mt-4">AI Lawlense</h1> {/* Moved to the top */}
+        <div className="flex flex-col items-center mt-10">
           <Image 
             src="/logo.png" 
             alt="logo" 
@@ -99,25 +99,16 @@ const Main = () => {
             height={80} 
             className="mb-8 rounded-full" 
           />
-       <div className="flex flex-row justify-center gap-4 mb-16 p-7">
-  <button className="bg-transparent border border-white shadow-2xl hover:shadow-lg transition-shadow duration-300 text-white py-4 px-6 rounded-lg flex items-center justify-center w-64">
-    <div className="flex items-center">
-      Create an image for my presentation
-    </div>
-  </button>
-  <button className="bg-transparent border border-white shadow-2xl hover:shadow-lg transition-shadow duration-300 text-white py-4 px-6 rounded-lg flex items-center justify-center w-64">
-    <div className="flex items-center">
-      What's in the news in Tokyo today?
-    </div>
-  </button>
-</div>
-
+          <div className="flex flex-col items-center gap-4 mb-16 p-4">
+            <Info prompt="Analyze a contract breach: John designs a logo for $2,000; the startup cancels and refuses payment." className="w-64 bg-transparent border border-white" />
+            <Info prompt="Interpret: 'Willfully injuring someone with a weapon is a felony, minimum five years imprisonment.'" className="w-64 bg-transparent border border-white" />
+          </div>
         </div>
       </div>
 
       {/* Prompt input area for all screens */}
       {!loading && (
-        <div className="absolute bottom-0 w-full flex justify-center items-center bg-background p-4">
+        <div className="absolute bottom-0 w-full flex flex-col items-center bg-background p-4">
           <div className="w-3/4 flex items-center bg-container p-3 rounded-full lg:ml-[11rem] md:ml-[11rem] sm:rounded-full md:rounded-e-full shadow-lg">
             <button className="bg-container hover:bg-inherit">
               <Paperclip className="text-foreground" />
@@ -136,6 +127,10 @@ const Main = () => {
               <ArrowUpIcon />
             </button>
           </div>
+          {/* Disclaimer for small devices */}
+          <p className="text-center text-sm text-gray-400 mt-2">
+            AI Lawlense can make mistakes. Check important info.
+          </p>
         </div>
       )}
     </div>

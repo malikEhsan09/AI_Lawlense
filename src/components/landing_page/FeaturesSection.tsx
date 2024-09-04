@@ -7,9 +7,9 @@ const FeaturesSection = () => {
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold mb-8">Features We Provide</h2>
 
-          <div className="relative flex justify-between items-center gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             {/* Card 1 */}
-            <div className="p-8 bg-[#1A1A1A] rounded-xl shadow-2xl flex-1">
+            <div className="p-8 bg-[#1A1A1A] rounded-xl shadow-2xl flex-1 mb-4 md:mb-0">
               <div className="flex justify-center mb-4">
                 <FaGavel className="text-[#1e9e64d2] text-5xl" />
               </div>
@@ -22,12 +22,11 @@ const FeaturesSection = () => {
 
             {/* Dotted Line between Cards */}
             <div className="hidden md:flex items-center justify-center">
-             <span className="block w-16 border-t-2 border-gray-400 border-dashed"></span>
-
+              <span className="block w-16 border-t-2 border-gray-400 border-dashed"></span>
             </div>
 
             {/* Card 2 */}
-            <div className="p-8 bg-[#1A1A1A] rounded-xl shadow-2xl flex-1">
+            <div className="p-8 bg-[#1A1A1A] rounded-xl shadow-2xl flex-1 mb-4 md:mb-0">
               <div className="flex justify-center mb-4">
                 <FaBalanceScale className="text-[#1e9e64d2] text-5xl" />
               </div>
@@ -40,12 +39,11 @@ const FeaturesSection = () => {
 
             {/* Dotted Line between Cards */}
             <div className="hidden md:flex items-center justify-center">
-            <span className="block w-16 border-t-2 border-gray-400 border-dashed"></span>
-
+              <span className="block w-16 border-t-2 border-gray-400 border-dashed"></span>
             </div>
 
             {/* Card 3 */}
-            <div className="p-8 bg-[#1A1A1A] rounded-xl shadow-2xl flex-1">
+            <div className="p-8 bg-[#1A1A1A] rounded-xl shadow-2xl flex-1 mb-4 md:mb-0">
               <div className="flex justify-center mb-4">
                 <FaRobot className="text-[#1e9e64d2] text-5xl" />
               </div>
