@@ -23,7 +23,7 @@ const Navbar = () => {
             height={50}
             className="filter invert bg-[#121212] rounded-full -ml-20"
           />
-          <span className="font-bold text-2xl text-[#ffff]">LawLense AI</span>
+          <span className="font-bold text-2xl text-[#ffff] ml-[1rem]">LawLense AI</span>
         </div>
 
         {/* Large screens */}
